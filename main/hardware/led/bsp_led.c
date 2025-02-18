@@ -58,8 +58,8 @@ void Led_Loop(void *parameter)
     {
         if(led_blink_flag == 0)
         {  
-            LedOff();
-            printf("LedOff\n");
+            //LedOff();
+            //printf("LedOff\n");
 
             //buzzer_play(500, BUZZER_DUTY);
 
@@ -68,8 +68,8 @@ void Led_Loop(void *parameter)
         }
         else
         {   
-            LedOn();
-            printf("LedOn\n");
+            //LedOn();
+            //printf("LedOn\n");
 
             //buzzer_play(800, BUZZER_DUTY);
 
@@ -110,7 +110,7 @@ void Led_Loop(void *parameter)
 void LED_Init(void)
 {
     //LED初始化
-    LedGpioConfig();
+    //LedGpioConfig();
 
     
     xTaskCreatePinnedToCore(

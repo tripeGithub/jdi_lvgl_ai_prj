@@ -12,9 +12,9 @@
 #include "sdkconfig.h"
 
 
-#define     Encoder_A     21    //编码器通道一
-#define     Encoder_B     40    //编码器通道二
-#define     Encoder_K     39    //编码器按键通道
+#define     Encoder_A     47//21    //编码器通道一
+#define     Encoder_B     39//40    //编码器通道二
+#define     Encoder_K     38//39    //编码器按键通道
 
 #define     Encoder_CHA_GPIO_INPUT_PIN_SEL      ((1ULL<<Encoder_A))
 #define     Encoder_CHB_GPIO_INPUT_PIN_SEL      ((1ULL<<Encoder_B))

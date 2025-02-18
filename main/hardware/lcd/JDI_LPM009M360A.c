@@ -5,6 +5,7 @@ static const char *TAG_LCD = "JDI_LPM009M360A";
 //配置输出寄存器
 #define JDI_LCD_DISP_PIN_SEL    (1ULL<<JDI_LCD_DISP_PIN)
 #define JDI_LCD_CS_PIN_SEL      (1ULL<<JDI_LCD_CS_PIN)
+#define JDI_LCD_BLK_PIN_SEL      (1ULL<<JDI_LCD_BLK_PIN)
 
 spi_device_handle_t jdi_lcd_spi_port;
 spi_device_handle_t *p_jdi_lcd_spi_port;
@@ -31,6 +32,7 @@ void JDI_LCD_DISP_PIN_Config(void)
 {
     gpio_config_t gpio_lcd_disp_init_struct = {0};
     //gpio_config_t gpio_lcd_cs_init_struct = {0};
+    gpio_config_t gpio_lcd_blk_init_struct = {0};
 
     //DISP PIN
     //配置IO为通用IO
@@ -67,6 +69,26 @@ void JDI_LCD_DISP_PIN_Config(void)
     //设置CS输出低电平
     gpio_set_level(JDI_LCD_CS_PIN, 0);
     */
+
+    //--------------------------------------------------------------------------------------------
+    ///*
+    //BLK PIN
+    //
+    //配置IO为通用IO
+    esp_rom_gpio_pad_select_gpio(JDI_LCD_BLK_PIN);
+
+    gpio_lcd_blk_init_struct.intr_type = GPIO_INTR_DISABLE;             //不使用中断
+    gpio_lcd_blk_init_struct.mode = GPIO_MODE_OUTPUT;                   //输出模式
+    gpio_lcd_blk_init_struct.pull_up_en = GPIO_PULLUP_ENABLE;           //使能上拉模式
+    gpio_lcd_blk_init_struct.pull_down_en = GPIO_PULLDOWN_DISABLE;      //失能下拉模式
+    gpio_lcd_blk_init_struct.pin_bit_mask = JDI_LCD_BLK_PIN_SEL;         //使用GPIO9输出寄存器
+
+    //将以上参数配置到引脚
+    gpio_config( &gpio_lcd_blk_init_struct );
+
+    //设置CS输出低电平
+    gpio_set_level(JDI_LCD_BLK_PIN, 1);
+    //*/
 }
 
 esp_err_t JDI_LCD_SPI_Config(void)
@@ -109,11 +131,11 @@ esp_err_t JDI_LCD_SPI_Config(void)
     spi_interface_cfg.duty_cycle_pos    = 0;
     spi_interface_cfg.cs_ena_pretrans   = 0;
     spi_interface_cfg.cs_ena_posttrans  = 0;
-    spi_interface_cfg.clock_speed_hz    = 1000000; // 频率
+    spi_interface_cfg.clock_speed_hz    = 4000000; // 频率
     spi_interface_cfg.input_delay_ns    = 0;
     spi_interface_cfg.spics_io_num      = JDI_LCD_CS_PIN;
     spi_interface_cfg.flags             = SPI_DEVICE_POSITIVE_CS; 
-    spi_interface_cfg.queue_size        = 3;    // 队列数量
+    spi_interface_cfg.queue_size        = 10;    // 队列数量
     spi_interface_cfg.pre_cb            = 0;    // dc_callback，//回调处理D/C行
     spi_interface_cfg.post_cb           = 0;
 
@@ -150,6 +172,17 @@ void JDI_LCD_DISP_ON(void)
 void JDI_LCD_DISP_OFF(void)
 {
     gpio_set_level(JDI_LCD_DISP_PIN, 0);
+}
+
+
+void JDI_LCD_BLK_ON(void)
+{
+    gpio_set_level(JDI_LCD_BLK_PIN, 0);
+}
+
+void JDI_LCD_BLK_OFF(void)
+{
+    gpio_set_level(JDI_LCD_BLK_PIN, 1);
 }
 
 
@@ -310,6 +343,9 @@ void LCD_Init(void)
     JDI_LCD_Date_Init();
 
     JDI_LCD_DISP_PIN_Config();
+
+    //JDI_LCD_BLK_ON();
+    JDI_LCD_BLK_OFF();
 
     JDI_LCD_DISP_ON();
 

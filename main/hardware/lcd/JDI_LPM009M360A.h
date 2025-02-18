@@ -22,11 +22,13 @@
 #define JDI_LCD_SPI_HOST             SPI2_HOST
 
 //设置LCD SPI引脚
-#define JDI_LCD_DISP_PIN        15
-#define JDI_LCD_CS_PIN          16
+#define JDI_LCD_DISP_PIN        3//14//3//15
+#define JDI_LCD_CS_PIN          4//13//4//16
 
-#define JDI_LCD_SPI_CLK_PIN     17
-#define JDI_LCD_SPI_MOSI_PIN    18
+#define JDI_LCD_SPI_CLK_PIN     5//12//5//17
+#define JDI_LCD_SPI_MOSI_PIN    2//11//2//18
+
+#define JDI_LCD_BLK_PIN         1
 
 #define SPI_MISO_PIN            -1
 #define SPI_HD_PIN              -1

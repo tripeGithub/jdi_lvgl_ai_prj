@@ -5,7 +5,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 
-#define BUZZER_GPIO 42
+#define BUZZER_GPIO 48//42
 #define BUZZER_CHANNEL LEDC_CHANNEL_0
 #define BUZZER_TIMER LEDC_TIMER_0
 #define BUZZER_FREQ 5000 // 5kHz
