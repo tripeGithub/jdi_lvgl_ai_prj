@@ -35,6 +35,7 @@ void example_lvgl_port_update_callback(lv_disp_drv_t *drv);
 void example_increase_lvgl_tick(void *arg);
 
 void jdi_lvgl_flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *lv_color_p);
+void jdi_lvgl_invalidate_cb(lv_disp_drv_t *drv, const lv_area_t *area);
 
 
 void LVGL_Init(void);                     // Call this function to initialize the screen (must be called in the main function) !!!!!

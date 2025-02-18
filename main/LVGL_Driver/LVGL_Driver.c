@@ -123,6 +123,7 @@ void LVGL_Init(void)
     disp_drv.rotated = LV_DISP_ROT_NONE; // 图像旋转                    // Vertical axis pixel count
     //disp_drv.flush_cb = example_lvgl_flush_cb;                        // Function : copy a buffer's content to a specific area of the display
     disp_drv.flush_cb = jdi_lvgl_flush_cb;
+    //disp_drv.rounder_cb = jdi_lvgl_invalidate_cb;
     disp_drv.drv_update_cb = example_lvgl_port_update_callback;         // Function : Rotate display and touch, when rotated screen in LVGL. Called when driver parameters are updated. 
     disp_drv.draw_buf = &disp_buf;                                      // LVGL will use this buffer(s) to draw the screens contents
     disp_drv.user_data = panel_handle;                
@@ -428,4 +429,12 @@ void jdi_lvgl_flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *lv
 
     // delay(1000);
     lv_disp_flush_ready(drv);
+}
+
+void jdi_lvgl_invalidate_cb(lv_disp_drv_t *drv, const lv_area_t *area)
+{
+    // 获取发送事件时传递的参数
+  lv_area_t *e = (lv_area_t *)lv_event_get_param(area);
+  e->x1 = 0;
+  e->x2 = TFT_HOR_RES - 1;
 }

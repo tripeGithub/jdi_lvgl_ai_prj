@@ -847,17 +847,24 @@ void lv_obj_invalidate_area(const lv_obj_t * obj, const lv_area_t * area)
 
 void lv_obj_invalidate(const lv_obj_t * obj)
 {
+    // 断言对象类型
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
     /*Truncate the area to the object*/
+    // 定义一个lv_area_t类型的变量obj_coords，用于存储对象坐标
     lv_area_t obj_coords;
+    // 获取对象的扩展绘制大小
     lv_coord_t ext_size = _lv_obj_get_ext_draw_size(obj);
+    // 将对象的坐标复制到obj_coords中
     lv_area_copy(&obj_coords, &obj->coords);
+    // 将对象的坐标向左上角扩展ext_size个像素
     obj_coords.x1 -= ext_size;
     obj_coords.y1 -= ext_size;
+    // 将对象的坐标向右下角扩展ext_size个像素
     obj_coords.x2 += ext_size;
     obj_coords.y2 += ext_size;
 
+    // 调用lv_obj_invalidate_area函数，将扩展后的坐标区域无效化
     lv_obj_invalidate_area(obj, &obj_coords);
 
 }

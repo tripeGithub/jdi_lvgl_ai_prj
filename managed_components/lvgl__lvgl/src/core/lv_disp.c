@@ -423,14 +423,20 @@ void lv_disp_clean_dcache(lv_disp_t * disp)
  * @param disp pointer to a display (NULL to use the default display)
  * @param en true: enable invalidation; false: invalidation
  */
+// 函数：lv_disp_enable_invalidation
+// 功能：启用或禁用显示无效化
+// 参数：disp：显示对象；en：是否启用
 void lv_disp_enable_invalidation(lv_disp_t * disp, bool en)
 {
+    // 如果disp为空，则获取默认显示对象
     if(!disp) disp = lv_disp_get_default();
+    // 如果仍然为空，则输出警告信息并返回
     if(!disp) {
         LV_LOG_WARN("no display registered");
         return;
     }
 
+    // 根据en的值，增加或减少inv_en_cnt的值
     disp->inv_en_cnt += en ? 1 : -1;
 }
 
@@ -456,14 +462,18 @@ bool lv_disp_is_invalidation_enabled(lv_disp_t * disp)
  * @param disp pointer to a display
  * @return pointer to the display refresher timer. (NULL on error)
  */
+// 获取显示设备的刷新定时器
 lv_timer_t * _lv_disp_get_refr_timer(lv_disp_t * disp)
 {
+    // 如果没有传入显示设备，则获取默认显示设备
     if(!disp) disp = lv_disp_get_default();
+    // 如果没有注册显示设备，则输出警告信息并返回NULL
     if(!disp) {
         LV_LOG_WARN("lv_disp_get_refr_timer: no display registered");
         return NULL;
     }
 
+    // 返回显示设备的刷新定时器
     return disp->refr_timer;
 }
 
