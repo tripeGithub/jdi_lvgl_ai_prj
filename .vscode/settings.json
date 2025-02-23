@@ -58,6 +58,12 @@
         "list": "c",
         "random": "c",
         "lv_style.h": "c",
-        "lv_obj.h": "c"
+        "lv_obj.h": "c",
+        "string": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "deque": "c",
+        "unordered_map": "c",
+        "vector": "c"
     }
 }

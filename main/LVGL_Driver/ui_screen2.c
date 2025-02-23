@@ -113,71 +113,7 @@ void ui_screen2_event_Button_cb(lv_event_t * e)
 
         //const char *title = title_in.c_str();
         //const char *text = text_in.c_str();
-        if (!msgbox) {
-        msgbox = lv_obj_create(lv_layer_top());
-        lv_obj_set_scrollbar_mode(msgbox, LV_SCROLLBAR_MODE_OFF); //关闭滑动条
-        //uint16_t width_title = lv_text_get_width(title, strlen(title), lv_obj_get_style_text_font(mbox.p, 0), 0);
-        //uint16_t width_text = lv_text_get_width(text, strlen(text), lv_obj_get_style_text_font(mbox.p, 0), 0);
-        //uint16_t width_title_zl = (width_title / 69);
-        //uint16_t width_text_zl = (width_text / 69);
-        //Serial.printf("width_text:%d\n", width_text);
-        //Serial.printf("width_text_zl:%d\n", width_text_zl);
-        //lv_obj_set_size(mbox.p, 78, 48 + ((width_title_zl + width_text_zl) * 20));
-        //lv_obj_set_size(msgbox, 78, 144);
-        lv_obj_set_size(msgbox, 78, 65);
-        lv_obj_align(msgbox, LV_ALIGN_LEFT_MID, -78, 72);
-        lv_obj_set_style_text_color(msgbox, MY_COLOR_BLACK, LV_STATE_DEFAULT);   // 字体颜色
-        lv_obj_set_style_border_color(msgbox, MY_COLOR_BLACK, LV_STATE_DEFAULT); // 边框颜色
-        lv_obj_set_style_border_width(msgbox, 2, LV_STATE_DEFAULT);              // 边框宽度
-        lv_obj_set_style_pad_all(msgbox, 0, LV_STATE_DEFAULT);                   // 边距
-        lv_obj_set_style_radius(msgbox, 9, LV_STATE_DEFAULT);                    // 设置圆角
-        lv_obj_set_style_bg_opa(msgbox, LV_OPA_100, LV_STATE_DEFAULT);
-
-        lv_obj_update_layout(msgbox); // 更新布局
-        uint16_t i_w = lv_obj_get_width(msgbox);
-        uint16_t i_h = lv_obj_get_height(msgbox);
-        uint16_t i_r = lv_obj_get_style_radius(msgbox, LV_STATE_DEFAULT);
-
-        // 内边框
-        lv_obj_t *innerBorder = lv_obj_create(msgbox);
-        lv_obj_set_style_bg_opa(innerBorder, LV_OPA_0, LV_STATE_DEFAULT);
-        lv_obj_set_style_border_color(innerBorder, MY_COLOR_CYAN, LV_STATE_DEFAULT);
-        lv_obj_set_style_border_width(innerBorder, 2, LV_STATE_DEFAULT);
-        lv_obj_set_style_pad_all(innerBorder, 0, LV_STATE_DEFAULT);
-        lv_obj_set_style_radius(innerBorder, i_r - 2, LV_STATE_DEFAULT);
-        lv_obj_set_size(innerBorder, i_w - 4, i_h - 4);
-        lv_obj_align(innerBorder, LV_ALIGN_CENTER, 0, 0);
-
-        // 标题
-        lv_obj_t *box_title = lv_label_create(msgbox);
-        // lv_obj_set_style_border_width(box_title, 0, LV_STATE_DEFAULT); // 边框宽度
-        // lv_obj_set_style_pad_all(box_title, 0, LV_STATE_DEFAULT);      // 边距
-        lv_obj_set_width(box_title, 66);                                                // 设置宽度
-        lv_obj_align(box_title, LV_ALIGN_TOP_MID, 1, 2);                                // 设置对齐方式
-        lv_obj_set_style_text_color(box_title, MY_COLOR_WHITE, LV_STATE_DEFAULT);       // 设置文本颜色
-        lv_label_set_long_mode(box_title, LV_LABEL_LONG_WRAP);                          // 设置文本长字符模式
-        lv_obj_set_style_text_align(box_title, LV_TEXT_ALIGN_CENTER, LV_STATE_DEFAULT); // 设置文本对齐方式
-        //lv_label_set_text(box_title, title);    
-        lv_label_set_text(box_title, "123");                                          // 打印文本
         
-        // 标题的背景
-        lv_obj_t *title_bg = lv_obj_create(msgbox);
-        lv_obj_set_style_border_width(title_bg, 0, LV_STATE_DEFAULT);
-        lv_obj_set_style_bg_color(title_bg, MY_COLOR_BLACK, LV_STATE_DEFAULT);
-        lv_obj_set_style_pad_all(title_bg, 0, LV_STATE_DEFAULT); // 边距
-        lv_obj_set_style_radius(title_bg, 0, LV_STATE_DEFAULT);  // 设置圆角
-        lv_obj_update_layout(msgbox);// 更新布局
-        lv_obj_set_size(title_bg, i_w - 8, lv_obj_get_height(box_title));
-        lv_obj_align(title_bg, LV_ALIGN_TOP_MID, 0, 2);
-        lv_obj_swap(title_bg, box_title); // 交换层级
-
-        // 内容
-        lv_obj_t *box_text = lv_label_create(msgbox);
-        lv_obj_set_width(box_text, 66);                                                // 设置宽度
-        lv_obj_align_to(box_text, box_title, LV_ALIGN_OUT_BOTTOM_MID, 0, 1);           // 设置对齐方式
-        lv_label_set_long_mode(box_text, LV_LABEL_LONG_WRAP);                          // 设置文本长字符模式
-        lv_obj_set_style_text_align(box_text, LV_TEXT_ALIGN_CENTER, LV_STATE_DEFAULT); // 设置文本对齐方式
-        lv_label_set_text(box_text, "456"); 
         
         // 设置消息框的回调函数
         //lv_obj_add_event_cb(msgbox, msgbox_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
@@ -192,11 +128,12 @@ void ui_screen2_event_Button_cb(lv_event_t * e)
         lv_anim_set_path_cb(&anim, lv_anim_path_ease_out); // 缓动效果
         lv_anim_start(&anim);
         } 
-        else {
-                // 再次按下按键关闭消息框
-                close_msgbox();
-            }
-    }
+        else 
+        {
+            // 再次按下按键关闭消息框
+            close_msgbox();
+        }
+    
 }
 
 

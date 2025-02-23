@@ -1,3 +1,5 @@
+#include "stdint.h"
+
 
 #define GRADUAL_ANIM_TIME 600                    // 渐入渐出动画
 #define MSGBOX_ANIM_TIME 280                     // 弹窗进入退出持续时间
@@ -14,3 +16,8 @@
 #define MY_COLOR_YELLOW lv_color_make(255, 255, 0)  // 黄色
 #define MY_COLOR_WHITE lv_color_make(255, 255, 255) // 白
 #define MY_COLOR_BLACK lv_color_make(0, 0, 0)       // 黑
+
+#define KEY_MODE_RL     1 // 按键模式：左、右（可以触发LV_EVENT_KEY）
+#define KEY_MODE_PN     0 // 按键模式：上一个焦点、下一个焦点（不能触发LV_EVENT_KEY）
+
+extern uint64_t millis(void);
