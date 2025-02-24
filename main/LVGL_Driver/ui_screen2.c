@@ -109,7 +109,7 @@ void ui_screen2_event_Button_cb(lv_event_t * e)
         lv_style_set_border_width(&msgbox_style, 2);
         lv_style_set_text_font(&msgbox_style, &lv_font_opposans_r_12_user);
         lv_obj_add_style(msgbox, &msgbox_style, 0);
-        */
+        
 
         //const char *title = title_in.c_str();
         //const char *text = text_in.c_str();
@@ -133,6 +133,8 @@ void ui_screen2_event_Button_cb(lv_event_t * e)
             // 再次按下按键关闭消息框
             close_msgbox();
         }
+        */
+    }
     
 }
 

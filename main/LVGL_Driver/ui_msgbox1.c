@@ -159,11 +159,21 @@ void my_msgbox_send(char* title_in, char* text_in, uint16_t time, char* button, 
   printf("time:%d\n", time);
 
   bitWrite(mbox.state, MBOX_STATE_SEND, 1); // 标记发送阶段
-  if(title_in) memcpy(mbox.title,title_in,MSGBOX_STR_LEN);//mbox.title = title_in;
-  if(text_in)  memcpy(mbox.text,text_in,MSGBOX_STR_LEN);//mbox.text = text_in;
+
+  if(title_in) 
+    memcpy(mbox.title, title_in, MSGBOX_STR_LEN);//mbox.title = title_in;
+
+  if(text_in)  
+    memcpy(mbox.text, text_in, MSGBOX_STR_LEN);//mbox.text = text_in;
+
   mbox.time = time;
-  if(button)   memcpy(mbox.button,button,MSGBOX_STR_LEN);//mbox.button = button;
-  if(event_cb) mbox.event_cb = event_cb;
+
+  if(button)   
+    memcpy(mbox.button, button, MSGBOX_STR_LEN);//mbox.button = button;
+
+  if(event_cb) 
+    mbox.event_cb = event_cb;
+
 }
 
 // 强制发送弹窗 供用户调用
@@ -172,8 +182,6 @@ void my_msgbox_forceSend(char* title_in, char* text_in, uint16_t time, char* but
   bitWrite(mbox.state, MBOX_STATE_FORCE, 1); // 标记强制发送
   my_msgbox_send(title_in, text_in, time, button, event_cb);
 }
-
-
 
 
 void ui_msgbox_process(char* title_in, char* text_in, uint16_t time, char* button, lv_event_cb_t event_cb)
@@ -405,7 +413,7 @@ void ui_msgbox_process(char* title_in, char* text_in, uint16_t time, char* butto
 }
 
 // 弹窗监测 放到loop任务中使用，用户勿调用
-void ui_msgbox_loop()
+void ui_msgbox_loop(void)
 {
   if(mbox.state == 0)  return; 
 

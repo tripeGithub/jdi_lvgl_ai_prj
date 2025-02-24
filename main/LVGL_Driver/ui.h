@@ -2,6 +2,7 @@
 
 #include "ui_screen1.h"
 #include "ui_screen2.h"
+#include "ui_msgbox1.h"
 
 void demo_img(void);
 void demo_gif(void);

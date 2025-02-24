@@ -70,7 +70,9 @@ void _ui_screen_change( lv_obj_t ** target, lv_scr_load_anim_t fademode, int spd
 void jdi_ui_demo(void)
 {
     lvgl_screen1_init();
-    lvgl_screen2_init();  
+    lvgl_screen2_init();
+    
+    ui_msgbox1_init();
 
     lvgl_screen1_group_init();
 

@@ -23,6 +23,7 @@
 #include "ui.h"
 
 
+
 void app_main(void)
 {
     printf("hello esp32s3!!\n");
@@ -61,13 +62,14 @@ void app_main(void)
 
     while(1)
     {
+        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
+        // 调用lvgl库中的定时器处理函数
+        lv_timer_handler();
+
+        ui_msgbox_loop();
 
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
         // 延时10毫秒
         vTaskDelay(pdMS_TO_TICKS(10));
-
-        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
-        // 调用lvgl库中的定时器处理函数
-        lv_timer_handler();
     }
 }

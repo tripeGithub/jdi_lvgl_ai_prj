@@ -43,3 +43,19 @@ typedef struct str_msgbox
 } MBOX;
 
 extern MBOX mbox;
+
+extern void ui_msgbox1_init(void);
+
+extern void my_msgbox_anim_x_cb(void *var, int32_t v);
+
+extern void my_msgbox_enter_anim_end_cb(lv_anim_t *a);
+extern void my_msgbox_exit_anim_end_cb(lv_anim_t *a);
+extern void my_msgbox_setExit_timer_cb(lv_timer_t *e);
+
+extern void my_msgbox_exit(uint32_t delay_ms);
+
+extern void my_msgbox_send(char* title_in, char* text_in, uint16_t time, char* button, lv_event_cb_t event_cb);
+extern void my_msgbox_forceSend(char* title_in, char* text_in, uint16_t time, char* button, lv_event_cb_t event_cb);
+
+extern void ui_msgbox_process(char* title_in, char* text_in, uint16_t time, char* button, lv_event_cb_t event_cb);
+extern void ui_msgbox_loop(void);
