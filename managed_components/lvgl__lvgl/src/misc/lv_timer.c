@@ -164,23 +164,36 @@ lv_timer_t * lv_timer_create_basic(void)
  * @param user_data custom parameter
  * @return pointer to the new timer
  */
+// 创建一个定时器
 lv_timer_t * lv_timer_create(lv_timer_cb_t timer_xcb, uint32_t period, void * user_data)
 {
+    // 声明一个指向lv_timer_t类型的指针，并初始化为NULL
     lv_timer_t * new_timer = NULL;
 
+    // 在全局定时器链表头部插入一个新的定时器
     new_timer = _lv_ll_ins_head(&LV_GC_ROOT(_lv_timer_ll));
+    // 断言malloc是否成功
     LV_ASSERT_MALLOC(new_timer);
+    // 如果malloc失败，返回NULL
     if(new_timer == NULL) return NULL;
 
+    // 设置定时器的周期
     new_timer->period = period;
+    // 设置定时器的回调函数
     new_timer->timer_cb = timer_xcb;
+    // 设置定时器的重复次数，-1表示无限重复
     new_timer->repeat_count = -1;
+    // 设置定时器的暂停状态，0表示未暂停
     new_timer->paused = 0;
+    // 设置定时器的上一次运行时间
     new_timer->last_run = lv_tick_get();
+    // 设置定时器的用户数据
     new_timer->user_data = user_data;
 
+    // 设置定时器已创建
     timer_created = true;
 
+    // 返回新创建的定时器
     return new_timer;
 }
 
@@ -244,8 +257,10 @@ void lv_timer_ready(lv_timer_t * timer)
  * @param timer pointer to a lv_timer.
  * @param repeat_count -1 : infinity;  0 : stop ;  n >0: residual times
  */
+// 设置定时器的重复次数
 void lv_timer_set_repeat_count(lv_timer_t * timer, int32_t repeat_count)
 {
+    // 将传入的重复次数赋值给定时器的repeat_count成员变量
     timer->repeat_count = repeat_count;
 }
 
@@ -263,8 +278,12 @@ void lv_timer_reset(lv_timer_t * timer)
  * Enable or disable the whole lv_timer handling
  * @param en true: lv_timer handling is running, false: lv_timer handling is suspended
  */
+// 函数：lv_timer_enable
+// 功能：启用或禁用定时器
+// 参数：en - 是否启用定时器
 void lv_timer_enable(bool en)
 {
+    // 将lv_timer_run变量赋值为en参数的值
     lv_timer_run = en;
 }
 

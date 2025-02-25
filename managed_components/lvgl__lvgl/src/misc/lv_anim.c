@@ -53,6 +53,9 @@ static lv_timer_t * _lv_anim_tmr;
  *   GLOBAL FUNCTIONS
  **********************/
 
+/**
+ * 初始化动画核心
+ */
 void _lv_anim_core_init(void)
 {
     _lv_ll_init(&LV_GC_ROOT(_lv_anim_ll), sizeof(lv_anim_t));
@@ -61,6 +64,9 @@ void _lv_anim_core_init(void)
     anim_list_changed = false;
 }
 
+/**
+ * 初始化动画
+ */
 void lv_anim_init(lv_anim_t * a)
 {
     lv_memset_00(a, sizeof(lv_anim_t));
@@ -72,6 +78,9 @@ void lv_anim_init(lv_anim_t * a)
     a->early_apply = 1;
 }
 
+/**
+ * 启动动画
+ */
 lv_anim_t * lv_anim_start(const lv_anim_t * a)
 {
     TRACE_ANIM("begin");
@@ -113,6 +122,9 @@ lv_anim_t * lv_anim_start(const lv_anim_t * a)
     return new_anim;
 }
 
+/**
+ * 获取动画播放时间
+ */
 uint32_t lv_anim_get_playtime(lv_anim_t * a)
 {
     uint32_t playtime = LV_ANIM_PLAYTIME_INFINITE;
@@ -134,6 +146,9 @@ uint32_t lv_anim_get_playtime(lv_anim_t * a)
     return playtime;
 }
 
+/**
+ * 删除动画
+ */
 bool lv_anim_del(void * var, lv_anim_exec_xcb_t exec_cb)
 {
     lv_anim_t * a;
@@ -159,12 +174,18 @@ bool lv_anim_del(void * var, lv_anim_exec_xcb_t exec_cb)
     return del;
 }
 
+/**
+ * 删除所有动画
+ */
 void lv_anim_del_all(void)
 {
     _lv_ll_clear(&LV_GC_ROOT(_lv_anim_ll));
     anim_mark_list_change();
 }
 
+/**
+ * 获取动画
+ */
 lv_anim_t * lv_anim_get(void * var, lv_anim_exec_xcb_t exec_cb)
 {
     lv_anim_t * a;
@@ -177,34 +198,48 @@ lv_anim_t * lv_anim_get(void * var, lv_anim_exec_xcb_t exec_cb)
     return NULL;
 }
 
+// 获取动画定时器
 struct _lv_timer_t * lv_anim_get_timer(void)
 {
+    // 返回动画定时器
     return _lv_anim_tmr;
 }
 
+// 返回正在运行的动画的数量
 uint16_t lv_anim_count_running(void)
 {
+    // 定义计数器
     uint16_t cnt = 0;
+    // 定义动画指针
     lv_anim_t * a;
+    // 遍历动画链表
     _LV_LL_READ(&LV_GC_ROOT(_lv_anim_ll), a) cnt++;
 
+    // 返回计数器的值
     return cnt;
 }
 
+// 计算动画速度到时间的函数
 uint32_t lv_anim_speed_to_time(uint32_t speed, int32_t start, int32_t end)
 {
+    // 计算起始值和结束值之间的差值
     uint32_t d    = LV_ABS(start - end);
+    // 计算动画时间
     uint32_t time = (d * 1000) / speed;
 
+    // 如果动画时间为0，则将其设置为1
     if(time == 0) {
         time++;
     }
 
+    // 返回动画时间
     return time;
 }
 
+// 函数lv_anim_refr_now用于刷新动画
 void lv_anim_refr_now(void)
 {
+    // 调用anim_timer函数，传入参数NULL
     anim_timer(NULL);
 }
 
@@ -217,7 +252,9 @@ int32_t lv_anim_path_linear(const lv_anim_t * a)
      *and the `start` and `end` values*/
     int32_t new_value;
     new_value = step * (a->end_value - a->start_value);
+    // 将new_value右移LV_ANIM_RES_SHIFT位，相当于除以2^LV_ANIM_RES_SHIFT
     new_value = new_value >> LV_ANIM_RES_SHIFT;
+    // 将new_value加上a->start_value，得到新的值
     new_value += a->start_value;
 
     return new_value;

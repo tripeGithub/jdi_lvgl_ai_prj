@@ -22,7 +22,7 @@
 
 #include "ui.h"
 
-
+SemaphoreHandle_t lvgl_mutex;
 
 void app_main(void)
 {
@@ -64,10 +64,12 @@ void app_main(void)
     {
         // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
         // 调用lvgl库中的定时器处理函数
-        lv_timer_handler();
 
-        ui_msgbox_loop();
-
+        //xSemaphoreTake(lvgl_mutex,portMAX_DELAY);       
+        lv_timer_handler();  // 让 GUI 去做它该做的事
+        ui_msgbox_loop();   // 弹窗任务
+        //xSemaphoreGive(lvgl_mutex);
+    
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
         // 延时10毫秒
         vTaskDelay(pdMS_TO_TICKS(10));

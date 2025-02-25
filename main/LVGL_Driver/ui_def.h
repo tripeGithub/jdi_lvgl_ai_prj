@@ -2,7 +2,7 @@
 
 
 #define GRADUAL_ANIM_TIME 600                    // 渐入渐出动画
-#define MSGBOX_ANIM_TIME 280                     // 弹窗进入退出持续时间
+#define MSGBOX_ANIM_TIME 480//280                     // 弹窗进入退出持续时间
 #define MSGBOX_ANIM_TIME2 MSGBOX_ANIM_TIME + 150 // 弹窗进入退出等待
 #define BUTTON_ANIM_TIME 160                     // 按钮收缩动画
 #define PAGE_SWITCH_ANIM_TIME 300                // 上下左右页面切换动画

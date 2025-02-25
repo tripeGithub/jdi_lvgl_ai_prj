@@ -32,18 +32,23 @@ void my_msgbox_anim_x_cb(void *var, int32_t v)
   //lv_obj_set_x((lv_obj_t *)var, v);
   lv_obj_align((lv_obj_t *)var, LV_ALIGN_LEFT_MID, v, 0);
   //Serial.printf("v:%d\n",v);
+
+  lv_obj_t * parent = lv_obj_get_parent((lv_obj_t *)var);
+  lv_obj_invalidate(parent); 
 }
 
 // 弹窗退出动画结束时删除自己
 void my_msgbox_exit_anim_end_cb(lv_anim_t *a) 
 {
+  lv_obj_t * parent = lv_obj_get_parent((lv_obj_t *)mbox.p);
+  
   // lv_obj_delete((lv_obj_t *)a->var);
   lv_obj_del(mbox.p); // 删除对象
   mbox.p = NULL;         // 对象地址清空
   mbox.keyMode = KEY_MODE_RL;
 
-    lv_indev_t * indev;
-    indev = lv_indev_get_act();
+  lv_indev_t * indev;
+  indev = lv_indev_get_act();
 
   if (group_old != NULL)
   {
@@ -68,6 +73,7 @@ void my_msgbox_exit_anim_end_cb(lv_anim_t *a)
   // 定时器存在，删除定时器
   if (lvTimer_msgbox)
   {
+    lv_timer_pause(lvTimer_msgbox);  // 暂停
     lv_timer_del(lvTimer_msgbox);
     lvTimer_msgbox = NULL;
   }
@@ -81,10 +87,12 @@ void my_msgbox_exit_anim_end_cb(lv_anim_t *a)
   //Serial.println(mbox.state, BIN);
   //Serial.println();
 
-  printf("弹窗退出完毕");
-  //printf("mbox.state:");
+  printf("弹窗退出完毕\n");
+  printf("mbox.state: %02X\n", mbox.state);
   //printf(mbox.state, BIN);
   //printf();
+
+  lv_obj_invalidate(parent);
 }
 
 // 弹窗退出 设置多少秒后退出的定时器回调
@@ -103,7 +111,14 @@ void my_msgbox_setExit_timer_cb(lv_timer_t *e)
   lv_anim_start(&b);                                        // 动画开始
   
   //Serial.println("弹窗退出动画开始");
-  printf("弹窗退出动画开始");
+  printf("弹窗退出动画开始\n");
+
+  if (lvTimer_msgbox)
+  {
+    lv_timer_pause(lvTimer_msgbox);  // 暂停
+    lv_timer_del(lvTimer_msgbox); // 删除
+    lvTimer_msgbox = NULL;
+  }
 }
 
 // 弹窗退出 供用户调用
@@ -113,7 +128,7 @@ void my_msgbox_exit(uint32_t delay_ms)
   if (bitRead(mbox.state, MBOX_STATE_EXIT)) return;
 
   //Serial.println("弹窗退出开始创建");
-  printf("弹窗退出开始创建");
+  printf("弹窗退出开始创建\n");
 
   if (lvTimer_msgbox)
   {
@@ -139,7 +154,7 @@ void my_msgbox_exit(uint32_t delay_ms)
 void my_msgbox_enter_anim_end_cb(lv_anim_t *a)
 {
   //Serial.println("弹窗进入动画结束");
-  printf("弹窗进入动画结束");
+  printf("弹窗进入动画结束\n");
 
   bitWrite(mbox.state, MBOX_STATE_ENTER, 0);  // 标记进入阶段结束
   bitWrite(mbox.state, MBOX_STATE_REMAIN, 1); // 标记进入停留阶段
@@ -153,7 +168,7 @@ void my_msgbox_send(char* title_in, char* text_in, uint16_t time, char* button, 
   //Serial.printf("text_in:%s\n", text_in.c_str());
   //Serial.printf("time:%d\n", time);
 
-  printf("弹窗发送");
+  printf("弹窗发送\n");
   printf("title_in:%s\n", title_in);
   printf("text_in:%s\n", text_in);
   printf("time:%d\n", time);
@@ -384,7 +399,7 @@ void ui_msgbox_process(char* title_in, char* text_in, uint16_t time, char* butto
     //Serial.printf("text_in:%s\n",text_in.c_str());
     //Serial.printf("time:%d\n",time);
 
-    printf("弹窗创建");
+    printf("弹窗创建\n");
     printf("title_in:%s\n",title_in);
     printf("text_in:%s\n",text_in);
     printf("time:%d\n",time);
@@ -446,12 +461,12 @@ void ui_msgbox_loop(void)
   if (mbox.p != NULL && bitRead(mbox.state, MBOX_STATE_SEND) == 1)
   {
     //Serial.println("新的弹窗挤入1");
-    printf("新的弹窗挤入1");
+    printf("新的弹窗挤入1\n");
 
     if (millis() - mbox.recordTime < 800) return; // 最少运行800毫秒
 
     //Serial.println("新的弹窗挤入2");
-    printf("新的弹窗挤入2");
+    printf("新的弹窗挤入2\n");
 
     bitWrite(mbox.state, MBOX_STATE_CLEAR, 0); // 标记不清空
     my_msgbox_exit(0);                         // 退出当前弹窗

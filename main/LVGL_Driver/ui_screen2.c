@@ -1,5 +1,6 @@
 
 #include "ui_screen2.h"
+#include "ui_msgbox1.h"
 
 lv_obj_t *ui_Image1;
 lv_obj_t *btn11;
@@ -65,6 +66,8 @@ void ui_screen2_event_Button_cb(lv_event_t * e)
     if (code == LV_EVENT_PRESSED) 
     {
         encoder_key_buzzer_trig = 1;
+
+        my_msgbox_send("123", "456", 1000, NULL, NULL);
         
         /*
         // 判断当前弹窗是否隐藏
